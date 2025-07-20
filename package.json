@@ -1,6 +1,6 @@
 {
   "name": "@ainote/mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for AI Note - Connect Claude Desktop to your AI Note tasks",
   "main": "index.js",
   "type": "module",
