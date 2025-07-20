@@ -1,0 +1,56 @@
+{
+  "name": "@ainote/mcp",
+  "version": "1.0.0",
+  "description": "MCP server for AI Note - Connect Claude Desktop to your AI Note tasks",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "ainote-mcp": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol",
+    "model-context-protocol",
+    "claude",
+    "claude-desktop",
+    "ainote",
+    "ai-note",
+    "tasks",
+    "task-management",
+    "todo",
+    "productivity",
+    "api",
+    "integration"
+  ],
+  "author": "AI Note Team <support@ainote.app>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ainote-dev/ainote-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ainote-dev/ainote-mcp/issues"
+  },
+  "homepage": "https://github.com/ainote-dev/ainote-mcp#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "axios": "^1.6.0"
+  },
+  "files": [
+    "index.js",
+    "README.md",
+    "README-ko.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
