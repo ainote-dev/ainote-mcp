@@ -1,0 +1,23 @@
+# Development files
+.git
+.gitignore
+*.log
+node_modules/
+
+# Test files
+test/
+*.test.js
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local environment
+.env.local
+.env.development
