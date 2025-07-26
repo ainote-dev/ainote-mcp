@@ -5,6 +5,10 @@
 
 A Model Context Protocol (MCP) server that connects Claude Desktop to your AI Note task management system. This server allows Claude to directly interact with your AI Note tasks, enabling task creation, updates, and management through natural language conversations.
 
+<a href="https://glama.ai/mcp/servers/@ainote-dev/ainote-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@ainote-dev/ainote-mcp/badge" alt="AI Note Server MCP server" />
+</a>
+
 ## Table of Contents
 
 - [Features](#features)
@@ -92,7 +96,6 @@ Open the file and add the following JSON block inside the `mcpServers` object. *
 ### Step 3: Restart Claude Desktop
 
 After saving the configuration file, **restart Claude Desktop** completely. The new MCP server will be loaded, and you can start managing your AI Note tasks through Claude.
-
 
 ## Usage
 
