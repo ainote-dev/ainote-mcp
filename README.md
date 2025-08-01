@@ -51,6 +51,34 @@ cd ainote-mcp-server
 npm install
 ```
 
+## Update
+
+### Update from npm (Recommended)
+
+To update to the latest version when installed via npm:
+
+```bash
+npm update -g @ainote/mcp
+```
+
+Or to install a specific version:
+
+```bash
+npm install -g @ainote/mcp@1.0.2
+```
+
+### Update from source
+
+If you installed from source:
+
+```bash
+cd ainote-mcp-server
+git pull origin main
+npm install
+```
+
+After updating, **restart Claude Desktop** to load the new version.
+
 ## Configuration
 
 To connect the MCP server with Claude Desktop, follow these steps.
