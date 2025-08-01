@@ -5,13 +5,13 @@ import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprot
 import axios from 'axios';
 
 const API_KEY = process.env.AINOTE_API_KEY;
-const API_URL = process.env.AINOTE_API_URL || 'https://ainote-5muq.onrender.com';
+const API_URL = process.env.AINOTE_API_URL || 'https://api.ainote.dev';
 
 // Create axios instance with default config
 const api = axios.create({
   baseURL: API_URL,
   headers: {
-    'Authorization': API_KEY,
+    'Authorization': `McpKey ${API_KEY}`,
     'Content-Type': 'application/json'
   }
 });

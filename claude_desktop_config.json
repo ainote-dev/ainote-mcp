@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "ainote": {
+      "command": "node",
+      "args": ["/path/to/ainote/mcp-proxy/index.js"],
+      "env": {
+        "AINOTE_API_KEY": "YOUR_MCP_KEY_HERE",
+        "AINOTE_API_URL": "https://api.ainote.dev"
+      },
+      "capabilities": {
+        "tools": true
+      }
+    }
+  }
+}

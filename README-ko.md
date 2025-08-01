@@ -103,15 +103,47 @@ Claude Desktop을 AI Note 작업 관리 시스템에 연결하는 MCP(Model Cont
 
 ## 설치
 
-### 설치
-
-소스코드로부터 설치
+### 옵션 1: npm에서 설치 (권장)
 
 ```bash
-git clone https://github.com/your-username/ainote-mcp-server.git
+npm install -g @ainote/mcp
+```
+
+### 옵션 2: 소스코드로부터 설치
+
+```bash
+git clone https://github.com/ainote-dev/ainote-mcp.git
 cd ainote-mcp-server
 npm install
 ```
+
+## 업데이트
+
+### npm에서 업데이트 (권장)
+
+npm을 통해 설치한 경우 최신 버전으로 업데이트:
+
+```bash
+npm update -g @ainote/mcp
+```
+
+특정 버전을 설치하려면:
+
+```bash
+npm install -g @ainote/mcp@1.0.2
+```
+
+### 소스코드에서 업데이트
+
+소스코드로 설치한 경우:
+
+```bash
+cd ainote-mcp-server
+git pull origin main
+npm install
+```
+
+업데이트 후에는 **Claude Desktop을 재시작**하여 새 버전을 로드하세요.
 
 ## 설정
 
