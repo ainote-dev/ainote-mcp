@@ -3,21 +3,51 @@
 [![npm version](https://badge.fury.io/js/%40ainote%2Fmcp-server.svg)](https://badge.fury.io/js/%40ainote%2Fmcp-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A Model Context Protocol (MCP) server that connects Claude Desktop to your AI Note task management system. This server allows Claude to directly interact with your AI Note tasks, enabling task creation, updates, and management through natural language conversations.
+A Model Context Protocol (MCP) server that connects AI assistants to your AI Note task management system. This package enables direct interaction with your AI Note tasks through natural language conversations in Claude Desktop and other MCP-compatible platforms.
+
+> 📚 **[Complete Project Guide](../docs/PROJECT_GUIDE.md)** - 전체 프로젝트 가이드 및 아키텍처 정보
 
 ## Table of Contents
 
+- [Access Methods](#access-methods)
 - [Features](#features)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
+- [HTTP Endpoint](#http-endpoint)
 - [Available Tools](#available-tools)
 - [API Reference](#api-reference)
 - [Development](#development)
 - [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 - [License](#license)
+
+## Access Methods
+
+AI Note MCP server is available through three transport options to cover different integration scenarios:
+
+### 1. **stdio Mode (This Package)** - For Personal Use
+- **Installation**: `npm install -g @ainote/mcp`
+- **Usage**: Claude Desktop and other stdio-based MCP clients
+- **Setup**: Local installation with API key configuration
+- **Best for**: Individual users connecting their personal AI Note account to Claude Desktop
+
+### 2. **Local SSE Bridge (ChatGPT / MCP Apps)**
+- **Command**: `ainote-mcp-http`
+- **Protocol**: Server-Sent Events (SSE) + JSON-RPC over HTTP POST
+- **Usage**: ChatGPT Model Context Protocol connectors, other SSE-capable MCP clients
+- **Setup**: Run locally alongside your browser; supports API key or (optional) OAuth bearer tokens
+- **Best for**: Users wanting to expose AI Note tools to ChatGPT without deploying infrastructure
+
+### 3. **Hosted HTTP Endpoint** - For Platform Integration
+- **URL**: `https://api.ainote.dev/mcp`
+- **Protocol**: JSON-RPC 2.0 over HTTP
+- **Usage**: Platform integrations (Kakao PlayMCP, etc.)
+- **Setup**: No installation required, direct API access
+- **Best for**: Third-party platforms and services integrating AI Note functionality
+
+All transports expose the same tool catalog. Choose the option that matches your hosting model and client capabilities.
 
 ## Features
 
@@ -30,7 +60,7 @@ A Model Context Protocol (MCP) server that connects Claude Desktop to your AI No
 
 ## Prerequisites
 
-- Node.js >= 16.0.0
+- Node.js >= 18.0.0
 - npm or yarn
 - AI Note API access (API key required)
 - Claude Desktop with MCP support enabled
@@ -138,6 +168,81 @@ Claude: I'll create that task for you with a due date set for Friday...
 You: "Mark task ID 123 as completed"
 Claude: I'll mark that task as completed...
 ```
+
+## HTTP Endpoint
+
+For platform integrations and services that prefer HTTP over stdio, AI Note provides a direct HTTP endpoint:
+
+### Endpoint URL
+```
+POST https://api.ainote.dev/mcp
+Content-Type: application/json
+```
+
+### Authentication
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+### Request Format (JSON-RPC 2.0)
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "tools/list",
+  "id": 1
+}
+```
+
+### Response Format
+```json
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "tools": [...]
+  },
+  "id": 1
+}
+```
+
+### Supported Methods
+- `ping` - Health check
+- `capabilities` - Server capabilities
+- `tools/list` - List available tools
+- `tools/call` - Execute a specific tool
+
+### Platform Integration Examples
+- **Kakao PlayMCP**: Use the HTTP endpoint for seamless integration
+- **Custom Applications**: Build your own MCP client using the HTTP API
+- **Enterprise Solutions**: Direct server-to-server communication
+
+This HTTP endpoint provides identical functionality to the stdio version, making AI Note MCP accessible to a broader range of platforms and integration scenarios.
+
+### Local Development Bridge (`ainote-mcp-http`)
+
+Run the bundled HTTP/SSE bridge when you need a local endpoint for ChatGPT or other MCP clients that speak SSE:
+
+```bash
+ainote-mcp-http
+```
+
+By default the server listens on `http://localhost:3030` and exposes two endpoints:
+
+- `GET /sse` – establishes the SSE stream and returns the `sessionId`
+- `POST /messages?sessionId=...` – receives JSON-RPC payloads from the client
+- `GET /health` – simple health probe for monitoring
+
+#### Configuration
+
+Environment variable | Description | Default
+---|---|---
+`AINOTE_API_KEY` | API key used for MCP key authentication | **required**
+`AINOTE_API_URL` | Target AI Note API base URL | `https://ainote-5muq.onrender.com`
+`AINOTE_MCP_HTTP_PORT` | Local port for the SSE server | `3030`
+`AINOTE_MCP_ALLOWED_ORIGINS` | Comma-separated list of allowed browser origins | _any_
+`AINOTE_MCP_ALLOWED_HOSTS` | Comma-separated list of allowed `Host` headers | _any_
+`AINOTE_ENABLE_OAUTH_AUTH` | Set to `true` to allow Bearer tokens (OAuth) | `false`
+
+When OAuth is enabled the server expects `Authorization: Bearer ...` headers from the client and forwards them to the AI Note API.
 
 ## Available Tools
 
