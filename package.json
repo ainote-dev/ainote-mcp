@@ -5,11 +5,16 @@
   "main": "index.js",
   "type": "module",
   "bin": {
-    "ainote-mcp": "./index.js"
+    "ainote-mcp": "./index.js",
+    "ainote-mcp-http": "./server.js"
   },
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:http": "node server.js",
+    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:watch": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --watch",
+    "test:coverage": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --coverage",
+    "test:verbose": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --verbose"
   },
   "keywords": [
     "mcp",
@@ -37,14 +42,40 @@
   },
   "homepage": "https://github.com/ainote-dev/ainote-mcp#readme",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
-    "axios": "^1.6.0"
+    "axios": "^1.6.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "@jest/globals": "^29.7.0", 
+    "axios-mock-adapter": "^1.22.0"
+  },
+  "jest": {
+    "transform": {},
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "index.js",
+      "server.js",
+      "lib/**/*.js",
+      "!node_modules/**"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"],
+    "testMatch": [
+      "**/__tests__/**/*.test.js",
+      "**/?(*.)+(spec|test).js"
+    ]
   },
   "files": [
     "index.js",
+    "server.js",
+    "lib",
     "README.md",
     "README-ko.md",
     "LICENSE"
