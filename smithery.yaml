@@ -1,0 +1,90 @@
+# Smithery — auto-discovery manifest for @ainote/mcp.
+#
+# Smithery (https://smithery.ai) scans this file in the package root and
+# auto-builds an installable MCP entry. Updating this file ships a new
+# Smithery release alongside the next npm publish — keep it in sync with
+# package.json's description and README's Available Tools.
+
+name: ainote
+displayName: ainote
+description: >-
+  Agent-native notes, tasks, dev-docs, GitHub-backed vaults, multi-device file
+  sync, and timestamped session handoffs. Every tool advertises MCP annotations
+  (readOnlyHint / destructiveHint / idempotentHint / openWorldHint) so
+  autonomous agent runtimes can gate destructive calls. Also exposes an OpenAPI
+  3.1 mirror at api.ainote.dev/api/mcp/openapi.json for OpenAI Custom GPT
+  Actions, LangChain remote tools, AutoGen, and CrewAI.
+
+homepage: https://docs.ainote.dev
+repository: https://github.com/seunghan91/ainote
+license: MIT
+
+categories:
+  - productivity
+  - notes
+  - task-management
+  - developer-tools
+  - memory
+  - multi-device-sync
+
+tags:
+  - mcp
+  - claude
+  - claude-code
+  - claude-desktop
+  - cursor
+  - windsurf
+  - openai
+  - openapi
+  - langchain
+  - autogen
+  - tasks
+  - todo
+  - dev-docs
+  - claude-md
+  - memory
+  - handoff
+  - vault
+  - obsidian
+  - github
+  - e2e-encrypted
+  - age
+  - oauth
+  - rfc8628
+
+# stdio launcher — Smithery passes user-provided env vars at runtime
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required:
+      - AINOTE_API_KEY
+    properties:
+      AINOTE_API_KEY:
+        type: string
+        title: ainote MCP API key
+        description: >-
+          64-character MCP key issued by ainote. Get one via `npx @ainote/mcp
+          signup` (RFC 8628 device flow), or in a Claude session by calling
+          `signup_and_get_key`, or from https://app.ainote.dev → Settings →
+          MCP keys.
+        format: password
+        minLength: 8
+  commandFunction: |-
+    config => ({
+      command: 'npx',
+      args: ['-y', '@ainote/mcp'],
+      env: { AINOTE_API_KEY: config.AINOTE_API_KEY }
+    })
+
+# A direct hosted HTTP transport is also available for runtimes that prefer
+# HTTP over stdio (Claude Code, Cursor with HTTP MCP, OpenAI/LangChain via the
+# OpenAPI mirror). Smithery clients that support HTTP can use this instead.
+remote:
+  protocol: http
+  url: https://api.ainote.dev/api/mcp
+  authentication:
+    type: header
+    name: Authorization
+    valueTemplate: "McpKey {AINOTE_API_KEY}"
+  openapi: https://api.ainote.dev/api/mcp/openapi.json

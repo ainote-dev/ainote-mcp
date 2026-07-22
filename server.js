@@ -80,12 +80,8 @@ app.post(config.http.messageEndpoint, async (req, res) => {
     return res.status(404).json({ error: `No transport found for sessionId ${sessionId}` });
   }
 
-  try {
-    const authContext = resolveAuthContext('sse', req.headers);
-    req.auth = authContext;
-  } catch (error) {
-    return res.status(401).json({ error: error.message });
-  }
+  const authContext = resolveAuthContext('sse', req.headers);
+  req.auth = authContext;
 
   try {
     await session.transport.handlePostMessage(req, res, req.body);
