@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.3.4] - 2026-10-11
+
+### Fixed
+- **Keychain storage now actually works.** Keychain account names were built as `host:field`; cross-keychain rejects `:` on every platform, so all keychain reads/writes threw and credentials always fell back to `~/.config/ainote/credentials.json`. Account names are now `<sanitized-host>@<field>` (no migration needed — nothing was ever stored under the old names).
+- **`ainote-mcp call` finds the key saved by `ainote-mcp login`.** `call` defaulted to `https://api.ainote.dev` while login/logout/whoami/the MCP server used `https://ainote-5muq.onrender.com`; since credentials are namespaced by host, `call` failed with "no MCP key". All entry points now share `DEFAULT_API_URL` / `resolveApiUrl()` from `lib/core/config-manager.js` (`AINOTE_API_URL` override unchanged).
+
 ## [1.3.3] - 2026-10-10
 
 ### Fixed

@@ -193,7 +193,7 @@ The fallback file is only used when no system keychain is available (e.g. headle
 
 ### Environment overrides
 
-- `AINOTE_API_URL` — backend URL (default `https://api.ainote.dev`)
+- `AINOTE_API_URL` — backend URL (default `https://ainote-5muq.onrender.com`; `login`, `call`, and the MCP server all share it, since stored credentials are keyed by host)
 - `AINOTE_API_KEY` — pre-provisioned MCP key. When set, the login flow is bypassed entirely and this key is used as-is.
 
 ### Headless / CI usage
@@ -437,7 +437,7 @@ By default the server listens on `http://localhost:3030` and exposes two endpoin
 Environment variable | Description | Default
 ---|---|---
 `AINOTE_API_KEY` | API key used for MCP key authentication | **required**
-`AINOTE_API_URL` | Target AI Note API base URL | `https://api.ainote.dev`
+`AINOTE_API_URL` | Target AI Note API base URL | `https://ainote-5muq.onrender.com`
 `AINOTE_MCP_HTTP_PORT` | Local port for the SSE server | `3030`
 `AINOTE_MCP_ALLOWED_ORIGINS` | Comma-separated list of allowed browser origins | _any_
 `AINOTE_MCP_ALLOWED_HOSTS` | Comma-separated list of allowed `Host` headers | _any_

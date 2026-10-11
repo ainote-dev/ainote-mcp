@@ -21,7 +21,8 @@ import {
   getCredentials,
   setCredentials,
   clearCredentials,
-  _credentialsLocations
+  _credentialsLocations,
+  _keychainAccount
 } from '../../lib/auth/token-store.js';
 
 const API_URL_A = 'https://prod.api.ainote.dev';
@@ -161,5 +162,41 @@ describe('token-store.js keychain service name', () => {
     const { keychainService } = _credentialsLocations();
     expect(keychainService).not.toContain('/');
     expect(keychainService).toMatch(/^[a-zA-Z0-9._@-]+$/);
+  });
+});
+
+describe('token-store.js keychain account names', () => {
+  // Regression: account names were `${host}:${field}`; cross-keychain rejects
+  // ':' (same /^[a-zA-Z0-9._@-]+$/ check as the service name), so every
+  // keychain op threw and credentials silently fell back to the file.
+  const VALID = /^[a-zA-Z0-9._@-]+$/;
+  const FIELDS = ['mcp_key', 'access_token', 'refresh_token', 'expires_at'];
+  const URLS = [
+    'https://ainote-5muq.onrender.com',
+    API_URL_A,
+    'http://localhost:3000',
+    'http://127.0.0.1:8080/api',
+    'http://[::1]:3000',
+    'not a url: weird/value'
+  ];
+
+  it('produces names cross-keychain accepts for every host/field', () => {
+    for (const u of URLS) {
+      for (const f of FIELDS) {
+        expect(_keychainAccount(u, f)).toMatch(VALID);
+      }
+    }
+  });
+
+  it('is deterministic and keeps host + field namespacing distinct', () => {
+    expect(_keychainAccount('https://ainote-5muq.onrender.com', 'mcp_key'))
+      .toBe('ainote-5muq.onrender.com@mcp_key');
+    expect(_keychainAccount(API_URL_A, 'mcp_key')).toBe(_keychainAccount(API_URL_A, 'mcp_key'));
+
+    const names = new Set();
+    for (const u of [API_URL_A, API_URL_B, 'http://localhost:3000', 'http://localhost:4000']) {
+      for (const f of FIELDS) names.add(_keychainAccount(u, f));
+    }
+    expect(names.size).toBe(4 * FIELDS.length);
   });
 });
