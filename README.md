@@ -639,7 +639,7 @@ Every tool advertises four MCP-spec annotations on `tools/list` so autonomous ag
 - `login_and_get_key` is marked `readOnlyHint: false` because it creates a default MCP key when the user has none.
 - `vault_sync` is conservatively `destructiveHint: true` because `action=push` with empty content can delete an indexed file.
 
-See the source-of-truth mapping at [`docs/todo/MCP_TOOL_ANNOTATIONS_MAPPING.md`](https://github.com/seunghan91/ainote/blob/main/docs/todo/MCP_TOOL_ANNOTATIONS_MAPPING.md) in the ainote repo.
+The live `tools/list` response is the source of truth for these annotations.
 
 ---
 
