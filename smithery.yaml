@@ -16,7 +16,7 @@ description: >-
   Actions, LangChain remote tools, AutoGen, and CrewAI.
 
 homepage: https://docs.ainote.dev
-repository: https://github.com/seunghan91/ainote
+repository: https://github.com/ainote-dev/ainote-mcp
 license: MIT
 
 categories:

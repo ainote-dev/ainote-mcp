@@ -3,7 +3,7 @@
   "name": "io.github.seunghan91/ainote",
   "description": "Agent-native notes, tasks, dev-docs, vaults, sync & handoffs. MCP + OpenAPI dual surface.",
   "repository": {
-    "url": "https://github.com/seunghan91/ainote",
+    "url": "https://github.com/ainote-dev/ainote-mcp",
     "source": "github"
   },
   "websiteUrl": "https://docs.ainote.dev",

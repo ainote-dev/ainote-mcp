@@ -114,4 +114,4 @@ chmod +x $(which ainote-mcp)
 
 문제가 있거나 도움이 필요한 경우:
 - 이슈 리포트: https://github.com/ainote-dev/ainote-mcp/issues
-- 이메일: support@ainote.app
+- 이메일: support@1pass.dev

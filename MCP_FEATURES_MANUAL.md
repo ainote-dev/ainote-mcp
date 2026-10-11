@@ -367,7 +367,7 @@ Claude: 어떤 내용으로 수정할까요?
 
 문제가 있거나 새로운 기능이 필요하다면:
 - GitHub Issues: https://github.com/ainote-dev/ainote-mcp/issues
-- 이메일: support@ainote.app
+- 이메일: support@1pass.dev
 
 ---
 
