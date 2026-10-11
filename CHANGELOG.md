@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.3.3] - 2026-10-10
+
+### Fixed
+- **`ainote-mcp login` now persists credentials on all platforms.** Two bugs combined to make the CLI device-flow login appear to succeed in the browser yet store nothing, leaving every subsequent command in onboarding mode:
+  - **Device-flow poll mis-read the success response.** The live backend returns the token bundle alongside `status: "complete"`, but `pollForToken` derived its polling state from `body.status` *before* checking for a token, so `"complete"` fell through to the default branch and threw `Unexpected poll response` — aborting login before credentials were saved. Success is now detected by the presence of an access token first (`lib/auth/device-flow.js`).
+  - **Keychain service name contained an illegal character.** `cross-keychain` validates identifiers against `/^[a-zA-Z0-9._@-]+$/` in its shared base backend, so the `/` in the service name `@ainote/cli` was rejected on macOS Keychain, libsecret, **and** Windows Credential Manager alike — not just Windows. Every keychain read/write threw and silently forced the file fallback. The service name is now sanitized to `@ainote.cli`. Since the old name never stored anything in any keychain, there are no entries to migrate (`lib/auth/token-store.js`).
+- Added regression tests for both fixes (`__tests__/auth/device-flow.test.js`, `__tests__/auth/token-store.test.js`).
+
 ## [1.3.2] - 2026-05-14
 
 ### Added

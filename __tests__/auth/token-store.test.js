@@ -151,3 +151,15 @@ describe('token-store.js file fallback', () => {
     expect(locs.file.startsWith(path.join(tmpDir, 'ainote'))).toBe(true);
   });
 });
+
+describe('token-store.js keychain service name', () => {
+  // Regression: cross-keychain validates identifiers against /^[a-zA-Z0-9._@-]+$/
+  // in its shared base backend, so a '/' is rejected on macOS, Linux, AND
+  // Windows. The literal '@ainote/cli' therefore threw on every keychain
+  // operation on all platforms. The service name must stay within that charset.
+  it('contains no characters cross-keychain rejects', () => {
+    const { keychainService } = _credentialsLocations();
+    expect(keychainService).not.toContain('/');
+    expect(keychainService).toMatch(/^[a-zA-Z0-9._@-]+$/);
+  });
+});

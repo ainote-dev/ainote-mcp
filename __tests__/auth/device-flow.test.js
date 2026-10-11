@@ -121,6 +121,37 @@ describe('device-flow.js', () => {
       expect(call).toBe(2);
     });
 
+    it('resolves when the success body also carries status: "complete"', async () => {
+      // Regression: the live ainote server returns the token bundle alongside
+      // `status: "complete"`. Deriving pollState from `body.status` before
+      // checking for success made "complete" fall through to the switch default
+      // and throw "Unexpected poll response", which aborted login before the
+      // credentials were ever persisted.
+      jest.useFakeTimers();
+
+      mock.onPost(`${API_URL}/api/auth/cli/device/poll`).reply(() => [200, envelope({
+        status: 'complete',
+        access_token: 'at_DONE',
+        refresh_token: 'rt_DONE',
+        mcp_key: 'mk_DONE',
+        expires_in: 3600
+      })]);
+
+      const promise = pollForToken({
+        apiUrl: API_URL,
+        deviceCode: 'dc',
+        codeVerifier: 'v',
+        interval: 1,
+        expiresIn: 60
+      });
+
+      await advanceForInterval(1);
+      const result = await promise;
+
+      expect(result.access_token).toBe('at_DONE');
+      expect(result.mcp_key).toBe('mk_DONE');
+    });
+
     it('bumps interval by ≥5s when server returns slow_down', async () => {
       jest.useFakeTimers();
 
