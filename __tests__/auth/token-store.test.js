@@ -62,6 +62,48 @@ describe('token-store.js file fallback', () => {
     try { fs.rmSync(tmpDir, { recursive: true, force: true }); } catch { /* best-effort */ }
   });
 
+  it('falls back to legacy-host credentials for the default host, and logout clears both', async () => {
+    const DEFAULT = 'https://api.ainote.dev';
+    const LEGACY = 'https://ainote-5muq.onrender.com';
+    await setCredentials(LEGACY, { mcpKey: 'mk_legacy', refreshToken: 'rt_legacy' });
+
+    const found = await getCredentials(DEFAULT);
+    expect(found.mcpKey).toBe('mk_legacy');
+    expect(found.refreshToken).toBe('rt_legacy');
+
+    // A non-default host never borrows legacy credentials.
+    expect(await getCredentials(API_URL_A)).toBeNull();
+
+    // Own credentials win over the legacy fallback.
+    await setCredentials(DEFAULT, { mcpKey: 'mk_new' });
+    expect((await getCredentials(DEFAULT)).mcpKey).toBe('mk_new');
+
+    await clearCredentials(DEFAULT);
+    expect(await getCredentials(DEFAULT)).toBeNull();
+    expect(await getCredentials(LEGACY)).toBeNull();
+  });
+
+  it('keeps the legacy MCP key after a refresh stores new tokens under the default host', async () => {
+    const DEFAULT = 'https://api.ainote.dev';
+    await setCredentials('https://ainote-5muq.onrender.com', {
+      mcpKey: 'mk_legacy', accessToken: 'at_old', refreshToken: 'rt_old'
+    });
+    await setCredentials(DEFAULT, { accessToken: 'at_new', refreshToken: 'rt_new', expiresAt: 123 });
+
+    const creds = await getCredentials(DEFAULT);
+    expect(creds.mcpKey).toBe('mk_legacy');
+    expect(creds.accessToken).toBe('at_new');
+    expect(creds.refreshToken).toBe('rt_new');
+    expect(creds.expiresAt).toBe(123);
+  });
+
+  it('never hands legacy credentials to plain http or another port on the default host', async () => {
+    await setCredentials('https://ainote-5muq.onrender.com', { mcpKey: 'mk_legacy' });
+    expect(await getCredentials('http://api.ainote.dev')).toBeNull();
+    expect(await getCredentials('https://api.ainote.dev:8443')).toBeNull();
+    expect(await getCredentials('https://api.ainote.dev.evil.test')).toBeNull();
+  });
+
   it('setCredentials writes credentials.json with mode 0o600 and the host-namespaced schema', async () => {
     const expiresAt = Date.now() + 60_000;
     const result = await setCredentials(API_URL_A, {

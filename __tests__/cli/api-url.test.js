@@ -33,6 +33,15 @@ describe('resolveApiUrl', () => {
     expect(resolveApiUrl({})).toBe(DEFAULT_API_URL);
   });
 
+  test('defaults to the canonical api.ainote.dev host', () => {
+    expect(DEFAULT_API_URL).toBe('https://api.ainote.dev');
+  });
+
+  test('rewrites the retired Render host to the default host, keeping the path', () => {
+    expect(resolveApiUrl({ AINOTE_API_URL: 'https://ainote-5muq.onrender.com' })).toBe('https://api.ainote.dev');
+    expect(resolveApiUrl({ AINOTE_API_URL: 'https://ainote-5muq.onrender.com/api/mcp/' })).toBe('https://api.ainote.dev/api/mcp');
+  });
+
   test('honours AINOTE_API_URL override and strips trailing slashes', () => {
     expect(resolveApiUrl({ AINOTE_API_URL: 'https://example.test//' })).toBe('https://example.test');
   });

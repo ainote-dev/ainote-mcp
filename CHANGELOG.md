@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.3.7] - 2026-11-03
+
+### Fixed
+- **The default backend is reachable again.** The built-in default was the old Render host `ainote-5muq.onrender.com`, which now answers 503 since the backend moved; without `AINOTE_API_URL`, login, tool calls and token refresh all failed. The default is now `https://api.ainote.dev`, the canonical domain the iOS and Android apps already use.
+- An `AINOTE_API_URL` that still points at the old Render host is rewritten to `api.ainote.dev` (path kept), so configs copied from the old README keep working.
+- Credentials saved under the old host are still found for the default host, so existing `ainote-mcp login` users do not have to log in again; `logout` clears both.
+
 ## [1.3.6] - 2026-11-03
 
 ### Fixed
