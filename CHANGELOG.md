@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.3.6] - 2026-11-03
+
+### Fixed
+- **`npx @ainote/mcp` starts the server again.** The package exposes two binaries (`ainote-mcp`, `ainote-mcp-http`) and neither matches the unscoped package name, so `npx -y @ainote/mcp` (the Claude Desktop config in the README) and `npx @ainote/mcp login|signup` failed with `could not determine executable to run`. A `mcp` binary pointing at the stdio server now lets npx pick it; the existing binary names are unchanged.
+
 ## [1.3.5] - 2026-11-03
 
 ### Fixed

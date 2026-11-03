@@ -1,11 +1,12 @@
 {
   "name": "@ainote/mcp",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "mcpName": "io.github.seunghan91/ainote",
   "description": "MCP server for AI Note - Tasks, Dev Docs, and multi-device file sync (CLAUDE.md, memory files, Cursor rules, Windsurf rules)",
   "main": "index.js",
   "type": "module",
   "bin": {
+    "mcp": "./index.js",
     "ainote-mcp": "./index.js",
     "ainote-mcp-http": "./server.js"
   },
