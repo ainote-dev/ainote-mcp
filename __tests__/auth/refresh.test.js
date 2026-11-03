@@ -40,3 +40,24 @@ describe('refreshAccessToken', () => {
       .rejects.toBeInstanceOf(RefreshError);
   });
 });
+
+describe('refresh error messages', () => {
+  let mock;
+  beforeEach(() => { mock = new MockAdapter(axios); });
+  afterEach(() => { mock.restore(); });
+
+  test('uses error.message from the API error envelope', async () => {
+    mock.onPost(URL).reply(401, {
+      success: false,
+      error: { message: 'Invalid refresh token', code: 'UNAUTHORIZED' }
+    });
+    await expect(refreshAccessToken({ apiUrl: API, refreshToken: 'rt_old' }))
+      .rejects.toMatchObject({ name: 'RefreshError', status: 401, message: 'Invalid refresh token' });
+  });
+
+  test('keeps OAuth-style string errors', async () => {
+    mock.onPost(URL).reply(400, { error: 'invalid_grant', error_description: 'expired' });
+    await expect(refreshAccessToken({ apiUrl: API, refreshToken: 'rt_old' }))
+      .rejects.toMatchObject({ message: 'expired' });
+  });
+});

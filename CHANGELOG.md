@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - **Token refresh works again for `ainote-mcp login` users.** The server answers `POST /api/auth/token/refresh` as `{ success, status, data: { access_token, refresh_token, expires_in } }`, but the client read only the top level, so every refresh threw `Refresh response missing access_token` and the user had to log in again once the access token expired. The client now reads `data` first and still accepts the legacy top-level shape. API-key (`AINOTE_API_KEY` / mcpKey) users were not affected.
+- **Auth error messages are readable.** Refresh and device-login errors from the API's `{ error: { message, code } }` envelope were shown as `[object Object]`; they now show the server's message.
 
 ## [1.3.4] - 2026-10-11
 
