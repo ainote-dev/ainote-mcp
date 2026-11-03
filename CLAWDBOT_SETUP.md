@@ -81,7 +81,7 @@ sudo docker compose exec clawdbot mkdir -p /home/node/.mcporter
 ```
 
 ```bash
-sudo docker compose exec clawdbot sh -c "echo -n '{\"mcpServers\":{\"ainote\":{\"baseUrl\":\"https://ainote-5muq.onrender.com/api/mcp\",' > /home/node/.mcporter/mcporter.json"
+sudo docker compose exec clawdbot sh -c "echo -n '{\"mcpServers\":{\"ainote\":{\"baseUrl\":\"https://api.ainote.dev/api/mcp\",' > /home/node/.mcporter/mcporter.json"
 ```
 
 ```bash
@@ -95,7 +95,7 @@ sudo docker compose exec clawdbot sh -c "echo -n '\"headers\":{\"Authorization\"
 #### 위치 2: `~/.clawdbot/mcporter.json`
 
 ```bash
-sudo docker compose exec clawdbot sh -c "echo -n '{\"mcpServers\":{\"ainote\":{\"baseUrl\":\"https://ainote-5muq.onrender.com/api/mcp\",' > /home/node/.clawdbot/mcporter.json"
+sudo docker compose exec clawdbot sh -c "echo -n '{\"mcpServers\":{\"ainote\":{\"baseUrl\":\"https://api.ainote.dev/api/mcp\",' > /home/node/.clawdbot/mcporter.json"
 ```
 
 ```bash
@@ -119,7 +119,7 @@ Docker 볼륨에 마운트된 config 디렉토리에도 저장하면 컨테이�
 
 ```bash
 # NAS 호스트에서 (예: Synology)
-echo -n '{"mcpServers":{"ainote":{"baseUrl":"https://ainote-5muq.onrender.com/api/mcp",' > /volume1/docker/clawdbot/config/mcporter.json
+echo -n '{"mcpServers":{"ainote":{"baseUrl":"https://api.ainote.dev/api/mcp",' > /volume1/docker/clawdbot/config/mcporter.json
 echo -n '"description":"AI Note task management",' >> /volume1/docker/clawdbot/config/mcporter.json
 echo -n '"headers":{"Authorization":"McpKey YOUR_API_KEY"}}}}' >> /volume1/docker/clawdbot/config/mcporter.json
 ```

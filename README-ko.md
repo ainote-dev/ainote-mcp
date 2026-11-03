@@ -156,7 +156,7 @@ npm install
 export AINOTE_API_KEY="여기에-api-키-입력"
 
 # 선택사항 (기본값: 프로덕션 URL)
-export AINOTE_API_URL="https://ainote-5muq.onrender.com"
+export AINOTE_API_URL="https://api.ainote.dev"
 ```
 
 ### 2. Claude Desktop 설정
@@ -177,7 +177,7 @@ Claude Desktop 설정 파일에 다음 내용을 추가하세요:
       ],
       "env": {
         "AINOTE_API_KEY": "YOUR_API_KEY",
-        "AINOTE_API_URL": "https://ainote-5muq.onrender.com"
+        "AINOTE_API_URL": "https://api.ainote.dev"
       }
     }
   }
@@ -193,7 +193,7 @@ Claude Desktop 설정 파일에 다음 내용을 추가하세요:
       "command": "ainote-mcp",
       "env": {
         "AINOTE_API_KEY": "YOUR_API_KEY",
-        "AINOTE_API_URL": "https://ainote-5muq.onrender.com"
+        "AINOTE_API_URL": "https://api.ainote.dev"
       }
     }
   }
